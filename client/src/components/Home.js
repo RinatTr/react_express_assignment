@@ -6,8 +6,10 @@ const Home = ({ users,
                 userEmail,
                 userPassword,
                 phoneNumber,
+                search,
                 handleSubmit,
                 handleChange,
+                handleSearch,
                 isDuplicate }) => {
 
   let myUsers = users.map(user => {
@@ -23,38 +25,49 @@ const Home = ({ users,
        {myUsers}
      </div>
      <div className="add-new">
-     <h3>Add new user:</h3>
+     <h5>Add new user:</h5>
      <form name="add" onSubmit={handleSubmit}>
        <input
          type="text"
          name="userName"
          value={userName}
          onChange={handleChange}
-         placeholder="Enter new username"
+         placeholder="Enter username"
        />
        <input
          type="text"
          name="userEmail"
          value={userEmail}
          onChange={handleChange}
-         placeholder="Enter new email"
+         placeholder="Enter email"
        />
        <input
          type="text"
          name="userPassword"
          value={userPassword}
          onChange={handleChange}
-         placeholder="Enter new password"
+         placeholder="Enter password"
        />
        <input
          type="text"
          name="phone_number"
          value={phoneNumber}
          onChange={handleChange}
-         placeholder="Enter new phone number"
+         placeholder="Enter phone number"
        />
        <button type="submit">add user</button>
        { isDuplicate ? "Error: either user name or phone already exist" : ""}
+      </form>
+      <h5>Search user:</h5>
+      <form name="search" onSubmit={handleSearch}>
+        <input
+          type="text"
+          name="search"
+          value={search}
+          onChange={handleChange}
+          placeholder="Enter username"
+        />
+        <button type="submit">search</button>
       </form>
       </div>
     </div>

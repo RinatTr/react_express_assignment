@@ -6,23 +6,25 @@ import User from './components/User'
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       users: [],
       userName: "",
       userEmail: "",
       userPassword: "",
       phone_number: "",
+      search:"",
       isDuplicate: false
     }
+    this.handleSearch = this.handleSearch.bind(this)
   }
   async componentDidMount() {
     await this.getApiData()
   }
 
   getApiData = () => {
-    axios.get('/users/')
+    return axios.get('/users/')
         .then(res => {
           this.setState({
             users: res.data.body
@@ -83,6 +85,16 @@ class App extends Component {
     })
   }
 
+  async handleSearch(event) {
+    event.preventDefault()
+    await this.getApiData()
+    let { users, search } = this.state;
+    let usersFound = users.filter(user => (user.username === search))
+    this.setState({
+      users: usersFound
+    })
+  }
+
   isDuplicate = (id) => {
     let { users, userName, phoneNumber } = this.state;
     let duplicateFound = users.find(user => (user.username === userName || user.phone === phoneNumber))
@@ -103,6 +115,7 @@ class App extends Component {
             userEmail,
             userPassword,
             phone_number,
+            search,
             isDuplicate } = this.state;
 
     return (
@@ -117,9 +130,11 @@ class App extends Component {
           userEmail={userEmail}
           userPassword={userPassword}
           phoneNumber={phone_number}
+          search={search}
           isDuplicate={isDuplicate}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          handleSearch={this.handleSearch}
          />} />
        <Route path="/user/:id" render={(props)=> <User {...props}
          users={users}
